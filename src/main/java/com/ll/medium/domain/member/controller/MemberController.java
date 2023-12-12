@@ -36,4 +36,9 @@ public class MemberController {
 
         return "redirect:/?msg=No %d member joined.".formatted(id);
     }
+
+    @GetMapping("/login")
+    public String login(){
+        return "domain/member/login";
+    }
 }
