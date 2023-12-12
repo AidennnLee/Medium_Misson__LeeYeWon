@@ -1,4 +1,4 @@
-package com.ll.medium.domain.member;
+package com.ll.medium.domain.member.form;
 
 import lombok.Getter;
 import lombok.Setter;
