@@ -1,0 +1,64 @@
+2023-12-11 15:06:58.845760+09:00 database: close
+org.h2.message.DbException: IO Exception: "Closing" [90028-224]
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.mvstore.db.Store.close(Store.java:374)
+	at org.h2.engine.Database.closeOpenFilesAndUnlock(Database.java:1293)
+	at org.h2.engine.Database.closeImpl(Database.java:1255)
+	at org.h2.engine.Database.close(Database.java:1174)
+	at org.h2.engine.Database.close(Database.java:1151)
+	at org.h2.engine.Database.removeSession(Database.java:1078)
+	at org.h2.engine.SessionLocal.close(SessionLocal.java:910)
+	at org.h2.jdbc.JdbcConnection.close(JdbcConnection.java:391)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:137)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:444)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: IO Exception: "Closing" [90028-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	... 14 more
+Caused by: org.h2.mvstore.MVStoreException: Could not truncate file C:/Users/yw010/source/medium/medium_dev.mv.db to size 32768 [2.2.224/2]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:996)
+	at org.h2.mvstore.SingleFileStore.truncate(SingleFileStore.java:205)
+	at org.h2.mvstore.RandomAccessStore.shrinkIfPossible(RandomAccessStore.java:700)
+	at org.h2.mvstore.RandomAccessStore.shrinkStoreIfPossible(RandomAccessStore.java:680)
+	at org.h2.mvstore.RandomAccessStore.writeChunk(RandomAccessStore.java:377)
+	at org.h2.mvstore.RandomAccessStore.writeChunk(RandomAccessStore.java:28)
+	at org.h2.mvstore.FileStore.storeBuffer(FileStore.java:1524)
+	at org.h2.mvstore.FileStore.lambda$serializeAndStore$3(FileStore.java:1432)
+	at org.h2.mvstore.FileStore.submitOrRun(FileStore.java:1401)
+	at org.h2.mvstore.FileStore.serializeAndStore(FileStore.java:1432)
+	at org.h2.mvstore.FileStore.lambda$storeIt$2(FileStore.java:1376)
+	at org.h2.mvstore.FileStore.submitOrRun(FileStore.java:1401)
+	at org.h2.mvstore.FileStore.storeIt(FileStore.java:1375)
+	at org.h2.mvstore.MVStore.storeNow(MVStore.java:843)
+	at org.h2.mvstore.MVStore.storeNow(MVStore.java:834)
+	at org.h2.mvstore.FileStore.store(FileStore.java:1364)
+	at org.h2.mvstore.RandomAccessStore.store(RandomAccessStore.java:618)
+	at org.h2.mvstore.RandomAccessStore.compactMoveChunks(RandomAccessStore.java:572)
+	at org.h2.mvstore.RandomAccessStore.compactMoveChunks(RandomAccessStore.java:481)
+	at org.h2.mvstore.RandomAccessStore.lambda$compactMoveChunks$1(RandomAccessStore.java:468)
+	at org.h2.mvstore.FileStore.executeFileStoreOperation(FileStore.java:1888)
+	at org.h2.mvstore.MVStore.executeFilestoreOperation(MVStore.java:922)
+	at org.h2.mvstore.RandomAccessStore.compactMoveChunks(RandomAccessStore.java:463)
+	at org.h2.mvstore.RandomAccessStore.compactStore(RandomAccessStore.java:443)
+	at org.h2.mvstore.FileStore.compactStore(FileStore.java:888)
+	at org.h2.mvstore.FileStore.stop(FileStore.java:275)
+	at org.h2.mvstore.MVStore.closeStore(MVStore.java:693)
+	at org.h2.mvstore.MVStore.close(MVStore.java:643)
+	at org.h2.mvstore.db.Store.close(Store.java:364)
+	... 12 more
+Caused by: java.io.IOException: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다
+	at java.base/sun.nio.ch.FileDispatcherImpl.truncate0(Native Method)
+	at java.base/sun.nio.ch.FileDispatcherImpl.truncate(FileDispatcherImpl.java:97)
+	at java.base/sun.nio.ch.FileChannelImpl.truncate(FileChannelImpl.java:484)
+	at org.h2.mvstore.SingleFileStore.truncate(SingleFileStore.java:200)
+	... 39 more
+2023-12-11 17:28:37.670718+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2023-12-11 17:40:50.179433+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "delete [*]* from member"; expected "identifier"; SQL statement:
+delete * from member [42001-224]
+2023-12-11 17:41:17.191705+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
