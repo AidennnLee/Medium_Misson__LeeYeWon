@@ -47,4 +47,10 @@ public class ArticleService {
         Pageable pageable = PageRequest.of(page, 15);
         return this.articleRepository.findAll(pageable);
     }
+
+    public void modify(Article article, String title, String body){
+        article.setTitle(title);
+        article.setBody(body);
+        this.articleRepository.save(article);
+    }
 }

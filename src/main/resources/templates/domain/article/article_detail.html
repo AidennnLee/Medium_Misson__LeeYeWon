@@ -6,5 +6,12 @@
         <span th:if="${article.writer != null}" th:text="${article.writer.username}"></span>
     </div>
     <div th:text="${#temporals.format(article.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+    <div class="my-3">
+        <a th:href="@{|/post/${article.id}/modify|}" class="btn btn-sm btn-outline-secondary"
+           sec:authorize="isAuthenticated()"
+           th:if="${article.writer != null and #authentication.getPrincipal().getUsername() == article.writer.username}"
+           th:text="수정"></a>
+    </div>
+    <a th:href="@{/post/list}" class="btn btn-primary">글 목록</a>
 </div>
 </html>

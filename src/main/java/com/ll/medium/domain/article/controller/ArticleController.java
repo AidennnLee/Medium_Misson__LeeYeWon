@@ -8,11 +8,13 @@ import com.ll.medium.domain.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 
@@ -56,5 +58,33 @@ public class ArticleController {
         this.articleService.create(articleForm.getTitle(), articleForm.getBody(), writer);
 
         return "redirect:/post/list";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{id}/modify")
+    public String modify(ArticleForm articleForm, @PathVariable("id") Integer id, Principal principal){
+        Article article = this.articleService.getArticle(id);
+        if(!article.getWriter().getUsername().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+        articleForm.setTitle(article.getTitle());
+        articleForm.setBody(article.getBody());
+
+        return "domain/article/article_form";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/{id}/modify")
+    public String modify(@Valid ArticleForm articleForm, BindingResult bindingResult, Principal principal, @PathVariable("id") Integer id){
+        if(bindingResult.hasErrors()){
+            return "domain/article/article_form";
+        }
+        Article article = this.articleService.getArticle(id);
+        if(!article.getWriter().getUsername().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
+        }
+        this.articleService.modify(article, articleForm.getTitle(), articleForm.getBody());
+
+        return String.format("redirect:/domain/article/article_detail/%s", id);
     }
 }
