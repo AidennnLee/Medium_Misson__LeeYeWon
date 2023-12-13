@@ -85,6 +85,18 @@ public class ArticleController {
         }
         this.articleService.modify(article, articleForm.getTitle(), articleForm.getBody());
 
-        return String.format("redirect:/domain/article/article_detail/%s", id);
+        return String.format("redirect:/post/%s", id);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{id}/delete")
+    public String delete(Principal principal, @PathVariable("id") Integer id){
+        Article article = this.articleService.getArticle(id);
+        if(!article.getWriter().getUsername().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
+        }
+        this.articleService.delete(article);
+
+        return "redirect:/post/list";
     }
 }
