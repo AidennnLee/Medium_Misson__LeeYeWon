@@ -1,9 +1,10 @@
 <html layout:decorate="~{global/userLayout}">
-    <div layout:fragment="content" class="container my-3">
-        <div class="my-3 border-bottom">
-            <div>
-                <h1>Home page</h1>
-            </div>
+<div layout:fragment="content" class="container my-3">
+    <div class="my-3 border-bottom">
+        <div>
+            <h1>Home page</h1>
         </div>
     </div>
+    <a th:href="@{/post/list}" class="btn btn-primary">전체 글 보기</a>
+</div>
 </html>

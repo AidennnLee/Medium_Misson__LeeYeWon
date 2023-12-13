@@ -1,15 +1,20 @@
 package com.ll.medium.domain.article.controller;
 
 import com.ll.medium.domain.article.entity.Article;
+import com.ll.medium.domain.article.form.ArticleForm;
 import com.ll.medium.domain.article.service.ArticleService;
+import com.ll.medium.domain.member.entity.Member;
+import com.ll.medium.domain.member.service.MemberService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
@@ -17,11 +22,12 @@ import java.util.List;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final MemberService memberService;
 
     @GetMapping("/list")
-    public String list(Model model){
-        List<Article> articleList = this.articleService.getList();
-        model.addAttribute("articleList", articleList);
+    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page){
+        Page<Article> paging = this.articleService.getList(page);
+        model.addAttribute("paging", paging);
 
         return "domain/article/article_list";
     }
@@ -31,6 +37,24 @@ public class ArticleController {
         Article article = this.articleService.getArticle(id);
         model.addAttribute("article", article);
 
-        return "article_detail";
+        return "domain/article/article_detail";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/write")
+    public String write(ArticleForm articleForm){
+        return "domain/article/article_form";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/write")
+    public String write(@Valid ArticleForm articleForm, BindingResult bindingResult, Principal principal){
+        if(bindingResult.hasErrors()){
+            return "domain/article/article_form";
+        }
+        Member writer = this.memberService.getMember(principal.getName());
+        this.articleService.create(articleForm.getTitle(), articleForm.getBody(), writer);
+
+        return "redirect:/post/list";
     }
 }
