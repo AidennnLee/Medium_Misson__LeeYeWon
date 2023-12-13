@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'NanumSquareRound';
+    font-style: normal;
+    font-weight: 400;
+    src: url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square.woff') format('woff');}
+
+* {
+    font-family: 'NanumSquareRound';
+}

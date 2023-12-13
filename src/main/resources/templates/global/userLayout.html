@@ -1,27 +1,34 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewpoint" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- CSS -->
-    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
-
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Medium</title>
 
-    <link rel="stylesheet" href="">
+    <!--<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" type="text/css" rel="stylesheet">-->
+    <link rel="stylesheet" href="/style.css">
+
 </head>
 <body>
 
+<!-- 테일윈드, 데이지 ui 적용 -->
+<link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.tailwindcss.com"></script>
+
 <!-- 네비게이션바 -->
 <nav th:replace="~{global/navbar :: navbarFragment}"></nav>
+
 <!-- 기본 템플릿 안에 삽입될 내용 시작 -->
 <th:block layout:fragment="content"></th:block>
 <!-- 기본 템플릿 안에 삽입될 내용 끝 -->
+
 <!-- Bootstrap JS -->
 <script th:src="@{/bootstrap.min.js}"></script>
+
 <!-- 자바스크립트 시작 -->
 <th:block layout:fragment="script"></th:block>
 <!-- 자바스크립트 끝 -->
+
 </body>
 </html>
