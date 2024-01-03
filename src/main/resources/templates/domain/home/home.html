@@ -1,0 +1,30 @@
+<html layout:decorate="~{global/userLayout}">
+<div layout:fragment="content">
+    <h1 class="font-bold">최신 글</h1>
+    <div class="overflow-x-auto">
+        <table class="table">
+            <!-- head -->
+            <thead>
+            <tr class="text-center">
+                <th></th>
+                <th style="width:50%">제목</th>
+                <th>글쓴이</th>
+                <th>작성일시</th>
+            </tr>
+            </thead>
+           <tbody>
+            <tr class="text-center" th:each="article, loop : ${recentList}">
+                <td th:text="${loop.count}"></td>
+                <td class="text-start">
+                    <a th:href="@{|/post/${article.id}|}" th:text="${article.title}"></a>
+                </td>
+                <td><span th:if="${article.writer != null}" th:text="${article.writer.username}"></span></td>
+                <td th:text="${#temporals.format(article.createDate, 'yyyy-MM-dd')}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <a th:href="@{/post/list}" class="btn btn-primary">전체 글 보기</a>
+</div>
+</html>

@@ -26,8 +26,9 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     // WEB
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
     // VALIDATION
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -35,12 +36,20 @@ dependencies {
     // LOMBOK
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 
     // DB
     runtimeOnly 'com.h2database:h2'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     // TEST
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // SECURITY
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
+    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {
